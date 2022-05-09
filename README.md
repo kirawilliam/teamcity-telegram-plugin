@@ -21,6 +21,9 @@ So when Teamcity is running send **any** message to bot. Response should
 contains you chat id. Add that chat id under profile page.
 ![profile page](/images/profile_page.png?raw=true)
 
+## Build Requirement
+1. Need Maven 3.5
+
 ## TODO
 1. This sources contains freemarker templates from Teamcity Jabber plugin.
    Maybe it violates license. Anybody can view and edit this resources.
