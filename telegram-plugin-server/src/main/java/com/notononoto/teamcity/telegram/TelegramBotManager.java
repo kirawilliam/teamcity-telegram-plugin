@@ -3,7 +3,6 @@ package com.notononoto.teamcity.telegram;
 import com.intellij.openapi.diagnostic.Logger;
 import com.notononoto.teamcity.telegram.config.TelegramSettings;
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.TelegramBotAdapter;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
@@ -99,22 +98,7 @@ public class TelegramBotManager {
   }
 
   private TelegramBot createBot(@NotNull TelegramSettings settings) {
-    OkHttpClient.Builder builder = new OkHttpClient.Builder();
-    if (settings.isUseProxy()) {
-      builder.proxy(new Proxy(Proxy.Type.HTTP,
-          new InetSocketAddress(settings.getProxyServer(), settings.getProxyPort())));
-      if (!StringUtils.isEmpty(settings.getProxyUsername()) &&
-          !StringUtils.isEmpty(settings.getProxyPassword())) {
-        builder.proxyAuthenticator((route, response) -> {
-          String credential =
-              Credentials.basic(settings.getProxyUsername(), settings.getProxyPassword());
-          return response.request().newBuilder()
-              .header("Proxy-Authorization", credential)
-              .build();
-        });
-      }
-    }
-    return TelegramBotAdapter.buildCustom(settings.getBotToken(), builder.build());
+    return new TelegramBot(settings.getBotToken());
   }
 
   private void addUpdatesListener(TelegramBot bot) {
